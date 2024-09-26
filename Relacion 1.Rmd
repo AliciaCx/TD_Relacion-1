@@ -1,0 +1,154 @@
+---
+title: "Relacion 1"
+output: pdf_document
+date: "Curso 2024-2025"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+```
+
+# EJERCICIO 1
+
+## Apartado a)
+
+```{r}
+tb01a <- crea.tablaX(c(5,4,6,
+                    2,3,1,
+                    -1,8,7,
+                    5,2,0), numalternativas = 4, numestados = 3 )
+```
+
+**Criterio de Wald**
+
+```{r}
+(sol01a_wald <- criterio.Wald(tb01a,T))
+cat("La alternativa optima segun el criterio de Wald es", names(sol01a_wald$AlternativaOptima), 
+    "siendo el valor optimo", sol01a_wald$ValorOptimo)
+```
+
+**Criterio Optimista**
+
+```{r}
+(sol01a_optimista <- criterio.Optimista(tb01a,T))
+cat("La alternativa optima segun el criterio optimista es", names(sol01a_optimista$AlternativaOptima), 
+    "siendo el valor optimo", sol01a_optimista$ValorOptimo)
+```
+
+**Criterio de Hurwicz**
+
+```{r}
+(sol01a_hurwicz <- criterio.Hurwicz(tb01a))
+cat("La alternativa optima segun el criterio de Hurwicz es", names(sol01a_hurwicz$AlternativaOptima), 
+    "siendo el valor optimo", sol01a_hurwicz$ValorOptimo)
+dibuja.criterio.Hurwicz(tb01a)
+dibuja.criterio.Hurwicz_Intervalos(tb01a)
+```
+
+**Criterio de Savage**
+
+```{r}
+(sol01a_savage<- criterio.Savage(tb01a))
+cat("La alternativa optima segun el criterio de Savage es", names(sol01a_savage$AlternativaOptima), 
+    "siendo el valor optimo", sol01a_savage$ValorOptimo)
+```
+
+**Criterio de Laplace**
+
+```{r}
+(sol01a_laplace<- criterio.Laplace(tb01a))
+cat("La alternativa optima segun el criterio de Laplace es", names(sol01a_laplace$AlternativaOptima), 
+    "siendo el valor optimo", sol01a_laplace$ValorOptimo)
+```
+
+**Criterio de Punto Ideal**
+
+```{r}
+(sol01a_puntoideal<- criterio.PuntoIdeal(tb01a))
+cat("La alternativa optima segun el criterio de Punto Ideal es", names(sol01a_puntoideal$AlternativaOptima), 
+    "siendo el valor optimo", round(sol01a_puntoideal$ValorOptimo, 4))
+```
+
+**Todos los criterios**
+```{r}
+(criterio.Todos(tb01a))
+```
+
+## Apartado b)
+
+Se hace igual que el apartado a, solo que en este caso al ser desfavorable usaríamos F.
+
+```{r}
+tb01b <- crea.tablaX(c(2,12,-3,
+                       5,5,-1,
+                       0,10,-2), 3,3)
+criterio.Todos(tb01b, alfa = 0.4, F)
+```
+
+# EJERCICIO 2
+
+```{r}
+tb02 <- crea.tablaX(c(0,1,0,
+                      1,0,0,
+                      1/2,1/2,0), 3, 3)
+dibuja.criterio.Hurwicz(tb02)
+# dibuja.criterio.Hurwicz_Intervalos(tb02, favorable = T) #Nos da error, usaremos Rerun with Debug
+# debug(dibuja.criterio.Hurwicz_Intervalos)
+# dibuja.criterio.Hurwicz_Intervalos(tb02, favorable = T)
+```
+
+# EJERCICIO 3
+```{r}
+tb03 <- crea.tablaX(c(24, 19, 10, 16,
+                      22, 22, 23, 20,
+                      23, 23, 21, 15,
+                      25, 24, 18, 14), 4, 4)
+rownames(tb03) <- c("Deportivo", "Berlina", "Monovolumen", "Todo-terreno")
+colnames(tb03) <- c("E1","E2","E3","E4")
+criterio.Todos(tb03, alfa = 0.5, T)
+```
+
+Para todos los criterios la mejor alternativa es Berlina, excepto según el criterio Optimista que dice que la mejor alternativa es Todo-terreno. Por lo tanto, la opción que le recomendamos a la empresa es Berlina.
+
+# EJERCICIO 4
+  -   Decisor: Ana
+  
+  -   Modelo: costos(desfavorable)
+  
+  -   Alternativa:
+  
+      -   d1 = "Seguro con Security"
+      -   d2 = "Seguro con Curadita"
+      -   d3 = "Seguro con Preventiva s.a"
+      
+  -   Estados de la naturaleza:
+  
+      -   e1 = "Dar a luz antes de un año"
+      -   e2 = "Dar a luz despues de un año"
+
+**Matriz de decision**
+```{r}
+m11 <- (30*12)+(3600/2) #d1 e1
+m12 <- 30*12 #d1 e2
+m21 <- 60*12 #d2 e1
+m22 <- 60*12 #d2 e2
+m31 <- (40*12)+3000 #d3 e1
+m32 <- 40*12 #d3 e2
+
+tb04 <- crea.tablaX(c(2160, 360,
+                      720, 720,
+                      3480, 480), 3, 2)
+rownames(tb04) <- c("Security", "Curadita", "Preventiva")
+colnames(tb04) <- c("Antes del año", "Despues del año")
+criterio.Todos(tb04, alfa = 0.5, F)
+```
+
+La mejor decision seria utilizar la alternativa Curadita ya que es la alternativa óptima en la mayoria de los criterios.
+
+
+
+

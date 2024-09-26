@@ -68,6 +68,11 @@ criterio.Todos(tb03, alfa = 0.5, T)
 # Requisitos 2
 
 m11 <- (30*12)+(3600/2)
+m12 <- 30*12
+m21 <- 60*12
+m22 <- 60*12
+m31 <- (40*12)+3000
+m32 <- 40*12
 
 tb04 <- crea.tablaX(c(2160, 360,
                       720, 720,
@@ -87,8 +92,18 @@ tb05 <- crea.tablaX(c(125, 120,
                       130, 80), 3, 2)
 criterio.Todos(tb05, alfa = 0.5, F)
 
+## PROBLEMA 6
 
+# Unica solucion cada uno de ellos
+# Modelo beneficios
+# Estadis <-  2
+# Alternativas <- 3
 
+tb05 <- crea.tablaX(c(55, 5,
+                      70, -30,
+                      85, 65), 3, 2)
+criterio.Todos(tb05, alfa = 0.5, T)
 
-
+# Alberto es pesimista <- mejor d1
+# Juan es optimista <-  mejor d3
 
