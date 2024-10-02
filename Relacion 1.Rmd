@@ -1,16 +1,27 @@
 ---
-title: "Relacion 1"
-output: pdf_document
+title: "Relación 1"
 date: "Curso 2024-2025"
+output:
+  pdf_document:
+    toc: true
+    number_sections: true
+    toc_depth: 5
+lang: es
+number-sections: true
+toc: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, echo=FALSE}
+library(knitr)
+library(kableExtra)
 source("teoriadecision_funciones_incertidumbre.R")
 ```
+
+\newpage
 
 # EJERCICIO 1
 
@@ -139,16 +150,112 @@ m22 <- 60*12 #d2 e2
 m31 <- (40*12)+3000 #d3 e1
 m32 <- 40*12 #d3 e2
 
-tb04 <- crea.tablaX(c(2160, 360,
-                      720, 720,
-                      3480, 480), 3, 2)
+tb04 <- crea.tablaX(c(m11, m12,
+                      m21, m22,
+                      m31, m32), 3, 2)
 rownames(tb04) <- c("Security", "Curadita", "Preventiva")
 colnames(tb04) <- c("Antes del año", "Despues del año")
-criterio.Todos(tb04, alfa = 0.5, F)
+sol04 <- criterio.Todos(tb04, alfa = 0.5, F)
 ```
+
+```{r, echo=FALSE}
+sol04 %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = TRUE)
+```
+
 
 La mejor decision seria utilizar la alternativa Curadita ya que es la alternativa óptima en la mayoria de los criterios.
 
+# EJERCICIO 5
+  -   Una única decisión entre dos personas
+  
+  -   Costos (desfavorable)
+  
+  -   Alternativas:
+  
+      -   d1 = "La música loca"
+      -   d2 = "El Baratito"
+      -   d3 = "Cerca de casa"
+      
+  -   Estados de la naturaleza:
+  
+      -   e1 = "Comer, copas y taxi"
+      -   e2 = "Comer, no copas, ir andando"
 
+**Matriz de decisión**
+```{r}
+m11 <- 60*2+5
+m12 <- 60*2
+m21 <- 30*2 + 6 + 10*2 + 30*2 + 10
+m22 <- 30*2
+m31 <- 40*2 + 25*2
+m32 <- 40*2
+
+tb05 <- crea.tablaX(c(m11, m12,
+                      m21, m22,
+                      m31, m32), 3, 2)
+rownames(tb05) <- c("La música loca", "El Baratito", "Cerca de casa")
+colnames(tb05) <- c("Com,cop,tax", "Com,no_c,and")
+sol05 <- criterio.Todos(tb05, alfa = 0.5, F)
+```
+
+```{r, echo=FALSE}
+sol05 %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = TRUE)
+```
+
+
+La mejor decision seria utilizar la alternativa **Cerca de casa** ya que es la alternativa óptima en la mayoria de los criterios.
+
+# EJERCICIO 6
+  -   Un decisor (dos personas que deciden de forma independiente):
+  
+      -   Alberto es conservador (Criterio de Wald)
+      -   Juan es optimista (Criterio Optimista)
+      
+  -   Beneficios (favorable)
+  
+  -   Alternativas:
+  
+      -   d1 = "25% variable y 75% fijo"
+      -   d2 = "50% variable y 50% fijo"
+      -   d3 = "75% variable y 25% fijo"
+      
+  -   Estados de la naturaleza
+  
+      -   e1 = "sube la bolsa (ganan 10% renta variable y 4% renta fija)"
+      -   e2 = "baja la bolsa(pierden 10% renta variable y 4% renta fija)"
+      
+**Matriz de decisión**
+```{r}
+m11 <- (1000*0.25)*0.10 + (1000*0.75)*0.04
+m12 <- -(1000*0.25)*0.10 + (1000*0.75)*0.04
+m21 <- (1000*0.5)*0.10 + (1000*0.5)*0.04
+m22 <- -(1000*0.5)*0.10 + (1000*0.5)*0.04
+m31 <- (1000*0.75)*0.10 + (1000*0.25)*0.04
+m32 <- -(1000*0.75)*0.10 + (1000*0.25)*0.04
+
+tb06 <- crea.tablaX(c(m11, m12,
+                      m21, m22,
+                      m31, m32), 3, 2)
+sol06 <- criterio.Todos(tb06, alfa = 0.5, T)
+```
+
+```{r, echo=FALSE}
+sol06 %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = TRUE)
+```
+
+Alberto es conservador/pesimista y decide con el criterio de Wald, por lo tanto, para él la mejor alternativa será la primera. Juan es optimista y decide con el criterio Optimista, por lo tanto, para él la mejor alternativa
+será la tercera.
 
 
